@@ -150,25 +150,13 @@ public class StickyListHeadersListView extends FrameLayout {
                 mList.setVerticalScrollBarEnabled((scrollBars & 0x00000200) != 0);
                 mList.setHorizontalScrollBarEnabled((scrollBars & 0x00000100) != 0);
 
-                // overscroll
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                    mList.setOverScrollMode(a.getInt(R.styleable.StickyListHeadersListView_android_overScrollMode, 0));
-                }
-
                 // -- ListView attributes --
                 mList.setFadingEdgeLength(a.getDimensionPixelSize(R.styleable.StickyListHeadersListView_android_fadingEdgeLength,
                         mList.getVerticalFadingEdgeLength()));
-                final int fadingEdge = a.getInt(R.styleable.StickyListHeadersListView_android_requiresFadingEdge, 0);
-                if (fadingEdge == 0x00001000) {
-                    mList.setVerticalFadingEdgeEnabled(false);
-                    mList.setHorizontalFadingEdgeEnabled(true);
-                } else if (fadingEdge == 0x00002000) {
-                    mList.setVerticalFadingEdgeEnabled(true);
-                    mList.setHorizontalFadingEdgeEnabled(false);
-                } else {
-                    mList.setVerticalFadingEdgeEnabled(false);
-                    mList.setHorizontalFadingEdgeEnabled(false);
-                }
+
+                mList.setVerticalFadingEdgeEnabled(false);
+                mList.setHorizontalFadingEdgeEnabled(false);
+
                 mList.setCacheColorHint(a
                         .getColor(R.styleable.StickyListHeadersListView_android_cacheColorHint, mList.getCacheColorHint()));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -178,11 +166,6 @@ public class StickyListHeadersListView extends FrameLayout {
                 mList.setDrawSelectorOnTop(a.getBoolean(R.styleable.StickyListHeadersListView_android_drawSelectorOnTop, false));
                 mList.setFastScrollEnabled(a.getBoolean(R.styleable.StickyListHeadersListView_android_fastScrollEnabled,
                         mList.isFastScrollEnabled()));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    mList.setFastScrollAlwaysVisible(a.getBoolean(
-                            R.styleable.StickyListHeadersListView_android_fastScrollAlwaysVisible,
-                            mList.isFastScrollAlwaysVisible()));
-                }
 
                 mList.setScrollBarStyle(a.getInt(R.styleable.StickyListHeadersListView_android_scrollbarStyle, 0));
 
@@ -763,25 +746,6 @@ public class StickyListHeadersListView extends FrameLayout {
         mList.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
     }
 
-    @Override
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    public int getOverScrollMode() {
-        if (requireSdkVersion(Build.VERSION_CODES.GINGERBREAD)) {
-            return mList.getOverScrollMode();
-        }
-        return 0;
-    }
-
-    @Override
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    public void setOverScrollMode(int mode) {
-        if (requireSdkVersion(Build.VERSION_CODES.GINGERBREAD)) {
-            if (mList != null) {
-                mList.setOverScrollMode(mode);
-            }
-        }
-    }
-
     @TargetApi(Build.VERSION_CODES.FROYO)
     public void smoothScrollBy(int distance, int duration) {
         if (requireSdkVersion(Build.VERSION_CODES.FROYO)) {
@@ -975,25 +939,6 @@ public class StickyListHeadersListView extends FrameLayout {
 
     public void setFastScrollEnabled(boolean fastScrollEnabled) {
         mList.setFastScrollEnabled(fastScrollEnabled);
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void setFastScrollAlwaysVisible(boolean alwaysVisible) {
-        if (requireSdkVersion(Build.VERSION_CODES.HONEYCOMB)) {
-            mList.setFastScrollAlwaysVisible(alwaysVisible);
-        }
-    }
-
-    /**
-     * @return true if the fast scroller will always show. False on pre-Honeycomb devices.
-     * @see android.widget.AbsListView#isFastScrollAlwaysVisible()
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public boolean isFastScrollAlwaysVisible() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            return false;
-        }
-        return mList.isFastScrollAlwaysVisible();
     }
 
     public void setScrollBarStyle(int style) {

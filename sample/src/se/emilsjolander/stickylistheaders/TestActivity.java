@@ -126,7 +126,6 @@ public class TestActivity extends ActionBarActivity implements
                     break;
                 case R.id.fast_scroll_checkBox:
                     stickyList.setFastScrollEnabled(isChecked);
-                    stickyList.setFastScrollAlwaysVisible(isChecked);
                     break;
             }
         }
